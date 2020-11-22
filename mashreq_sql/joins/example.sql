@@ -1,0 +1,1 @@
+SELECT * FROM Persons, Orders where Persons.p_id=Orders.p_id(+) AND orders.p_id IS NULL;

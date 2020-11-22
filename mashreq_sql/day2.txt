@@ -1,0 +1,142 @@
+SQL> select e.empno,e.ename,d.deptno, d.dname from emp e, dept d
+  2  where e.deptno=d.deptno;
+
+     EMPNO ENAME          DEPTNO DNAME
+---------- ---------- ---------- --------------
+      7369 SMITH              20 RESEARCH
+      7499 ALLEN              30 SALES
+      7521 WARD               30 SALES
+      7566 JONES              20 RESEARCH
+      7654 MARTIN             30 SALES
+      7698 BLAKE              30 SALES
+      7782 CLARK              10 ACCOUNTING
+      7788 SCOTT              20 RESEARCH
+      7839 KING               10 ACCOUNTING
+      7844 TURNER             30 SALES
+      7876 ADAMS              20 RESEARCH
+
+     EMPNO ENAME          DEPTNO DNAME
+---------- ---------- ---------- --------------
+      7900 JAMES              30 SALES
+      7902 FORD               20 RESEARCH
+      7934 MILLER             10 ACCOUNTING
+
+14 rows selected. 
+
+
+SQL> select ename,job,d.deptno, dname from emp e, dept d
+  2  where e.deptno=d.deptno and loc='CHICAGO';
+
+ENAME      JOB           DEPTNO DNAME
+---------- --------- ---------- --------------
+ALLEN      SALESMAN          30 SALES
+WARD       SALESMAN          30 SALES
+MARTIN     SALESMAN          30 SALES
+BLAKE      MANAGER           30 SALES
+TURNER     SALESMAN          30 SALES
+JAMES      CLERK             30 SALES
+
+6 rows selected.
+
+
+SQL> select ename,hiredate,deptno
+  2  from emp1
+  3  where deptno in (select deptno from emp1 where ename='ARUN')
+  4  and ename<>'ARUN';
+
+ENAME      HIREDATE      DEPTNO
+---------- --------- ----------
+SMITH      17-DEC-80         20
+ADAMS      23-MAY-87         20
+FORD       03-DEC-81         20
+SCOTT      19-APR-87         20
+JONES      02-APR-81         20
+
+
+
+SQL> select empno,ename,sal from emp
+  2  where sal>(select avg(sal) from emp)
+  3  order by sal;
+
+     EMPNO ENAME             SAL
+---------- ---------- ----------
+      7782 CLARK            2450
+      7698 BLAKE            2850
+      7566 JONES            2975
+      7788 SCOTT            3000
+      7902 FORD             3000
+      7839 KING             5000
+
+6 rows selected.
+
+
+
+SQL> select ename,sal from emp
+  2  where mgr=(select empno from emp where ename='KING');
+
+ENAME             SAL
+---------- ----------
+JONES            2975
+BLAKE            2850
+CLARK            2450
+
+
+
+SQL> select e.deptno,ename,job from emp e
+  2  where e.deptno=(select d.deptno from dept d where dname='SALES');
+
+    DEPTNO ENAME      JOB
+---------- ---------- ---------
+        30 ALLEN      SALESMAN
+        30 WARD       SALESMAN
+        30 MARTIN     SALESMAN
+        30 BLAKE      MANAGER
+        30 TURNER     SALESMAN
+        30 JAMES      CLERK
+
+6 rows selected.
+
+
+SQL> select count(1), job from emp
+  2  group by job;
+
+  COUNT(1) JOB
+---------- ---------
+         2 ANALYST
+         4 CLERK
+         3 MANAGER
+         1 PRESIDENT
+         4 SALESMAN
+
+
+SQL> select count(distinct(mgr)) "Number of Managers" from emp;
+
+Number of Managers
+------------------
+                 6
+
+
+
+SQL>  select distinct(job) "JOB", d.loc "Location", d.deptno "Department" from emp e, dept d
+  2  where d.deptno=30;
+
+JOB       Location      Department
+--------- ------------- ----------
+ANALYST   CHICAGO               30
+CLERK     CHICAGO               30
+MANAGER   CHICAGO               30
+PRESIDENT CHICAGO               30
+SALESMAN  CHICAGO               30
+
+
+
+SQL> select e.ename, e.comm,d.deptno,d.loc from emp e,dept d
+  2  where e.deptno=d.deptno
+  3  and e.comm is not null;
+
+ENAME            COMM     DEPTNO LOC
+---------- ---------- ---------- -------------
+ALLEN             300         30 CHICAGO
+WARD              500         30 CHICAGO
+MARTIN           1400         30 CHICAGO
+TURNER              0         30 CHICAGO

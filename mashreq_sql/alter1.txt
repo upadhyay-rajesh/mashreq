@@ -1,0 +1,29 @@
+---------------------------
+Alter
+---------------------------
+create table table1(col1 Varchar2(10),col2 Number(5));
+
+//rename table using rename keyword
+
+Alter table table1 rename to mytable;
+
+//Add column using add  keyword
+Alter table mytable add(col3 varchar(19));
+
+//rename column 
+Alter table mytable rename Column col3 to column3;
+
+//modify table
+Alter table mytable modify(col1 varchar2(15) not null);
+
+//Add constraint
+Alter table mytable add constraint const_1 Primary Key(col1);
+
+// drop column
+Alter table mytable drop Column column3;
+
+//drop constraint
+Alter table mytable drop constraint const_1;
+
+//drop table
+drop mytable;
